@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>  </title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+  <script>
+	/**
+	 * 父级对象，用于定义公用的属性及方法
+	 */
+	function Parent(){
+		this.x = 0;
+		this.y = 0;
+		this.width = 100;
+		this.height = 100;
+
+		this.step = function(){
+			console.log("This is Parent step");
+		}
+	}
+	
+	/**
+	 * 子级对象 ， 继承自 Parent
+	 * 自动拥有 x,y,width,height, step()
+	 */
+	function Son(){
+		//实现对Parent的继承
+		Parent.call(this);
+		this.speed = 50;
+		this.lastTime = 0;
+	}
+	
+	var son = new Son();
+	console.log(son.width);
+	console.log(son.height);
+	console.log("spped:"+son.speed);
+	console.log("lastTime:"+son.lastTime);
+	son.step();
+  </script>
+ </head>
+
+ <body>
+	
+ </body>
+</html>

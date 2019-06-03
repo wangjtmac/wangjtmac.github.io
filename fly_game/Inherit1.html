@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>  </title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+  <script>
+    //如何在继承过程中，向父级对象传递参数
+	var PARENT = {x:0,y:0,width:50,height:50};
+	var SON = {x:100,y:100,width:150,height:150};
+	var DAU = {x:150,y:150,width:200,height:200};
+	function Parent(config){
+		this.x = config.x;
+		this.y = config.y;
+		this.width = config.width;
+		this.height = config.height;
+
+		this.step = function(){
+			console.log("This is Parent step");
+		}
+	}
+
+	function Son(){
+		Parent.call(this,SON);
+		// 重写父级对象中的step方法
+		this.step = function(){
+			console.log("This is Son step");
+		}
+	}
+
+	function Daughter(){
+		Parent.call(this,DAU);
+	}
+
+	var son = new Son();
+	var dau = new Daughter();
+	son.step();
+	dau.step();
+  </script>
+ </head>
+
+ <body>
+	
+ </body>
+</html>
