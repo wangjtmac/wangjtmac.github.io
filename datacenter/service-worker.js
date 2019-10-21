@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/wangjtmac/precache-manifest.780138eb71c0074b9776f42872920c0e.js"
+  "/precache-manifest.ce59781da0af8c50fa0af71802eb19af.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "cicada-dataCenter-webui"});
