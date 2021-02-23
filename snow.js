@@ -21,7 +21,7 @@ export default class Snow {
         // z轴位置
         this.z = 0;
         // 水平速度
-        this.sx = 0;
+        this.sx = opt.sx || 0;
         // 是否左右摇摆
         this.isSwing = false;
         // 左右摇摆的步长
@@ -31,7 +31,7 @@ export default class Snow {
         // 左右摇摆的正弦x步长
         this.swingStep = 0.01;
         // 垂直速度
-        this.sy = 0;
+        this.sy = opt.sy || 0;
         // 最大速度
         this.maxSpeed = opt.maxSpeed || 4;
         // 最小速度
@@ -65,7 +65,7 @@ export default class Snow {
             this.y = -this.width
         }
         this.sy = isQuick ? Math.random() * this.quickMaxSpeed + this.quickMinSpeed : Math.random() * this.maxSpeed + this.minSpeed;
-        this.sx = this.dir === 'r' ? this.sy : -this.sy;
+        this.sx = this.dir === 'r' ? this.sx : -this.sx;
         this.z = isQuick ? Math.random() * 300 + 200 : 0;
         this.swingStep = 0.01 * Math.random();
         this.swingRadian = Math.random() * (1.1 - 0.9) + 0.9;
@@ -160,11 +160,15 @@ class Snows {
 new Snows({
     isRain: true,
     num: 150,
-    maxSpeed: 10,
-    dir : 'l'
+    maxSpeed : 10,
+    dir : 'l',
+    sx : 0.5,
+    sy : 1
 });
 new Snows({
     isRain: false,
     num: 250,
-    dir : 'l'
+    dir : 'l',
+    sx : 1 ,
+    sy : 1
 });
