@@ -1,78 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6b9b5f89-7d0e-4709-8ece-8e59bff6a3cb" name="Default" comment="">
+    <list default="true" id="6b9b5f89-7d0e-4709-8ece-8e59bff6a3cb" name="Default" comment="snow">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fly_game/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/fly_game/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fly_game2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/fly_game2/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>cons</find>
-      <find>icon</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="7c2035ba-f03a-4c56-8407-220a19408bc4" />
-  </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="NodePackageJsonFileManager">
-    <packageJsonPaths />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="820" />
-  </component>
-  <component name="ProjectId" id="2Vna3yAxh02Nf2CnbHldl0QjGFg" />
+  <component name="ProjectId" id="1oji6vyn9U20S9NBrvzjU3mB9gs" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="wangjtmac.github.io" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wangjtmac.github.io" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wangjtmac.github.io" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wangjtmac.github.io" type="462c0819:PsiDirectoryNode" />
-              <item name="fly_game2" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -87,79 +46,58 @@
       <updated>1559549918211</updated>
       <workItem from="1559549924696" duration="736000" />
       <workItem from="1559552976559" duration="635000" />
-      <workItem from="1695474104092" duration="2464000" />
+      <workItem from="1613806229501" duration="2600000" />
+      <workItem from="1614064113384" duration="1049000" />
+      <workItem from="1614067010865" duration="173000" />
+      <workItem from="1615986996339" duration="3296000" />
     </task>
+    <task id="LOCAL-00001" summary="snow">
+      <created>1613809505475</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1613809505475</updated>
+    </task>
+    <task id="LOCAL-00002" summary="snow">
+      <created>1614064309140</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1614064309141</updated>
+    </task>
+    <task id="LOCAL-00003" summary="snow">
+      <created>1614067156903</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1614067156903</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1376000" />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="820" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24947146" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="snow" />
+    <option name="LAST_COMMIT_MESSAGE" value="snow" />
   </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/fly_game2/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9480">
-          <caret line="632" column="19" selection-start-line="632" selection-start-column="15" selection-end-line="632" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html" />
-    <entry file="file://$PROJECT_DIR$/fly_game/Inherit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="12" column="25" lean-forward="true" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fly_game/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="551" column="11" lean-forward="true" selection-start-line="551" selection-start-column="11" selection-end-line="551" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fly_game2/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="26" lean-forward="true" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
+  <component name="WindowStateProjectService">
+    <state x="439" y="153" key="CommitChangelistDialog2" timestamp="1614067156822">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="439" y="153" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1614067156822" />
+    <state x="177" y="117" key="DiffContextDialog" timestamp="1614067154335">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="177" y="117" key="DiffContextDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1614067154335" />
+    <state x="440" y="263" key="Vcs.Push.Dialog.v2" timestamp="1614064312287">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="440" y="263" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1614064312287" />
+    <state x="500" y="171" width="680" height="708" key="find.popup" timestamp="1613806603804">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="500" y="171" width="680" height="708" key="find.popup/0.0.1680.1050@0.0.1680.1050" timestamp="1613806603804" />
   </component>
 </project>

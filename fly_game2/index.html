@@ -2,6 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes"/>
     <title>飞机大战</title>
     <style type="text/css">
         body, html, div, a, ul, li { padding: 0; margin: 0; overflow: hidden; }
@@ -185,9 +187,9 @@
         var canvas = document.getElementById("mycancas");
         var boxW = wrap.offsetWidth;
         var boxH = wrap.offsetHeight;
-        if (boxW > 800) {
+        /*if (boxW > 800) {
             boxW = 640;
-        }
+        }*/
         canvas.width = boxW;
         canvas.height = boxH;
         ctx = canvas.getContext('2d');
@@ -311,7 +313,7 @@
 
                 if (this.down) {
 
-                    if (this.time % 3 == 0) {
+                    if (this.time % 3 === 0) {
                         this.index++;
                         if (this.index >= 3) {
 
@@ -325,7 +327,7 @@
             //增加飞机的射击方法
             this.shoot = function() {
                 this.btTime++;
-                if (this.btTime % 25 == 0) {
+                if (this.btTime % 25 === 0) {
                     bullets[bullets.length] = new bullet(BULLET);
                 }
             }
@@ -346,7 +348,7 @@
             }
             this.step = function() {
                 this.time++;
-                if (this.time % 4 == 0) {
+                if (this.time % 4 === 0) {
                     this.potion++;
 
                     if (this.potion >= this.sum) {
@@ -437,7 +439,7 @@
                 enemies[enemies.length] = new Enemy(ENEMY2);
             } else {
 
-                if (enemies.length > 0 && enemies[0].type != 2) {
+                if (enemies.length > 0 && enemies[0].type !== 2) {
                     enemies.unshift(new Enemy(ENEMY3));
                 }
             }
@@ -575,7 +577,7 @@
             }
             // 鼠标离开画布事件
             canvas.onmouseout = function() {
-                if (gameData.state == gameData.RUNNING) {
+                if (gameData.state === gameData.RUNNING) {
                     gameData.state = gameData.PAUSED;
                 }
             }
@@ -617,7 +619,7 @@
             }
             this.step = function() {
                 this.time++;
-                if (this.time % 5 == 0) {
+                if (this.time % 5 === 0) {
                     this.y1++;
                     this.y2++;
                     this.y1 >= boxH && (this.y1 = -boxH);
@@ -659,7 +661,7 @@
 
                 case gameData.STATE:
                     enemyTime++;
-                    if (enemyTime % gameData.ENETIME == 0) {
+                    if (enemyTime % gameData.ENETIME === 0) {
                         createEnemies();
                         enemyTime = 0;
                     }
@@ -688,7 +690,7 @@
                     break;
 
             }
-            if (gameData.state != gameData.GAMEOVER) {
+            if (gameData.state !== gameData.GAMEOVER) {
                 set_time = setTimeout(function() {
                     gameExec();
                 }, 10);
