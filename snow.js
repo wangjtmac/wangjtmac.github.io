@@ -160,15 +160,15 @@ class Snows {
 new Snows({
     isRain: true,
     num: 150,
-    maxSpeed : 10,
-    dir : 'l',
-    sx : 0.5,
-    sy : 1
+    maxSpeed: 10,
+    dir: 'l',
+    sx: 0.5,
+    sy: 1
 });
 new Snows({
     isRain: false,
-    num: 250,
-    dir : 'l',
-    sx : 1 ,
-    sy : 1
+    num: 150,
+    dir: 'l',
+    sx: 1,
+    sy: 1
 });
