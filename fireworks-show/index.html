@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>烟花秀 - Fireworks Symphony</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+  <script src="../package/p5.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -628,14 +628,6 @@
             <span class="value-display" id="sparkleIntensity-value">0.6</span>
           </div>
         </div>
-
-        <div class="control-group">
-          <label class="control-label">祝福语概率</label>
-          <div class="slider-container">
-            <input type="range" class="slider" id="blessingChance" min="0" max="1" step="0.1" value="0.3">
-            <span class="value-display" id="blessingChance-value">0.3</span>
-          </div>
-        </div>
       </div>
 
       <!-- Action Buttons -->
@@ -645,9 +637,7 @@
           <button class="control-button secondary-button" onclick="launchBurst()">连发</button>
           <button class="control-button secondary-button" onclick="clearScreen()">清屏</button>
         </div>
-        <!-- <button class="control-button tertiary" onclick="showRandomBlessing()"
-          style="background: linear-gradient(45deg, var(--bright-gold), var(--fire-red)) !important; margin-top: 10px;">🐎
-          马年祝福</button> -->
+        
       </div>
     </div>
 
@@ -662,7 +652,7 @@
     <div class="touch-controls" id="touch-controls">
       <button class="touch-button" id="launch-btn" title="发射烟花">🎆</button>
       <button class="touch-button secondary" id="burst-btn" title="连发">💥</button>
-      <!-- <button class="touch-button secondary" id="blessing-btn" title="马年祝福">🐎</button> -->
+      
       <button class="touch-button secondary" id="clear-btn" title="清屏">🧹</button>
     </div>
 
@@ -684,7 +674,8 @@
       gravity: 0.15,
       trailLength: 0.92,
       sparkleIntensity: 0.6,
-      blessingChance: 0.3
+      maxParticles: 500,
+      maxFireworks: 10
     };
 
     // ═══════════════════════════════════════════════════════════════════════
@@ -696,7 +687,8 @@
     let lastLaunch = 0;
     let frameCounter = 0;
     let lastFPSUpdate = 0;
-    let blessings = []; // 存储当前显示的祝福语
+    let lastStatsUpdate = 0;
+    let currentFPS = 60;
 
     // 颜色调色板 - 更丰富的色彩组合
     const colorPalettes = [
@@ -729,34 +721,7 @@
       'star'        // 星形
     ];
 
-    // 马年祝福语
-    const horseYearBlessings = [
-      '马到成功',
-      '龙马精神',
-      '一马当先',
-      '万马奔腾',
-      '马年大吉',
-      '快马加鞭',
-      '马上有钱',
-      '马上有福',
-      '马上有喜',
-      '马上有爱',
-      '千里马遇伯乐',
-      '马踏飞燕',
-      '马不停蹄',
-      '马年行大运',
-      '骏马奔腾',
-      '马上成功',
-      '马年如意',
-      '马上幸福',
-      '马年发财',
-      '马上升职',
-      '马年健康',
-      '马上心想事成',
-      '马年万事如意',
-      '马上好运连连',
-      '马年步步高升'
-    ];
+    
 
     // ═══════════════════════════════════════════════════════════════════════
     // P5.js 主要函数
@@ -788,9 +753,34 @@
       noStroke();
       rect(0, 0, width, height);
 
-      // 自动发射烟花
+      // 性能监控：根据FPS自动调整
+      frameCounter++;
+      if (millis() - lastFPSUpdate > 500) {
+        currentFPS = frameCounter * 2;
+        frameCounter = 0;
+        lastFPSUpdate = millis();
+
+        // 自动降级：如果FPS过低，减少粒子数量
+        if (currentFPS < 30 && params.particleCount > 20) {
+          params.particleCount = Math.max(20, params.particleCount - 5);
+          params.launchRate = Math.max(0.3, params.launchRate - 0.1);
+        } else if (currentFPS > 55 && params.particleCount < 50) {
+          params.particleCount = Math.min(50, params.particleCount + 5);
+          params.launchRate = Math.min(0.8, params.launchRate + 0.1);
+        }
+      }
+
+      // 计算当前总粒子数
+      let totalParticles = 0;
+      fireworks.forEach(fw => {
+        totalParticles += fw.particles.length;
+      });
+
+      // 自动发射烟花 - 检查是否可以发射新烟花
+      let canLaunchNew = totalParticles < params.maxParticles && fireworks.length < params.maxFireworks;
+      
       if (millis() - lastLaunch > 1000 / params.launchRate) {
-        if (random() < 0.7) { // 70% 概率自动发射
+        if (canLaunchNew && random() < 0.7) {
           launchRandomFirework();
         }
         lastLaunch = millis();
@@ -806,23 +796,16 @@
         }
       }
 
-      // 更新和绘制祝福语
-      for (let i = blessings.length - 1; i >= 0; i--) {
-        blessings[i].update();
-        blessings[i].display();
-
-        if (blessings[i].isDead()) {
-          blessings.splice(i, 1);
-        }
-      }
-
       // 性能优化：定期清理超出屏幕范围的烟花
-      if (frameCount % 60 === 0) { // 每秒检查一次
+      if (frameCount % 60 === 0) {
         cleanupOffscreenFireworks();
       }
 
-      // 更新性能统计
-      updateStats();
+      // 减少DOM更新频率：每10帧更新一次统计信息
+      if (millis() - lastStatsUpdate > 100) {
+        updateStats();
+        lastStatsUpdate = millis();
+      }
     }
 
     function windowResized() {
@@ -844,8 +827,14 @@
 
         // 发射阶段
         this.exploded = false;
-        this.vx = (targetX - x) * 0.01;
-        this.vy = (targetY - y) * 0.01;
+        
+        // 使用固定的初始向上速度，而不是基于目标点计算
+        let distance = dist(x, y, targetX, targetY);
+        let initialSpeed = map(distance, 100, height * 0.7, 10, 16);
+        let angle = atan2(targetY - y, targetX - x);
+        
+        this.vx = cos(angle) * initialSpeed;
+        this.vy = sin(angle) * initialSpeed;
 
         // 爆炸粒子
         this.particles = [];
@@ -862,10 +851,12 @@
 
       update() {
         if (!this.exploded) {
-          // 发射阶段
+          // 发射阶段 - 遵循真实物理原理
           this.x += this.vx;
           this.y += this.vy;
-          this.vy += 0.02; // 轻微重力影响
+          
+          // 重力加速度（恒定向下）
+          this.vy += params.gravity;
 
           // 添加拖尾
           this.trail.push({
@@ -878,17 +869,23 @@
             this.trail.shift();
           }
 
-          // 检查是否到达目标或需要强制爆炸
+          // 检查是否到达最高点（速度接近0时爆炸）
           let distance = dist(this.x, this.y, this.targetX, this.targetY);
+          let speed = sqrt(this.vx * this.vx + this.vy * this.vy);
           let shouldExplode = false;
 
-          // 到达目标点
-          if (distance < 8) {
+          // 到达最高点（速度接近0）且仍在上升
+          if (speed < 0.3 && this.vy < 0) {
             shouldExplode = true;
           }
 
-          // 开始下降时爆炸（防止飞出屏幕顶部）
-          if (this.vy > 0) {
+          // 到达目标点
+          if (distance < 15) {
+            shouldExplode = true;
+          }
+
+          // 开始下降时爆炸
+          if (this.vy > 0.3) {
             shouldExplode = true;
           }
 
@@ -897,15 +894,13 @@
             shouldExplode = true;
           }
 
-          // 如果烟花飞得太高（超出目标点很多）
-          if (this.y < this.targetY - 50) {
+          // 如果烟花飞得太高
+          if (this.y < this.targetY - 100) {
             shouldExplode = true;
           }
 
           if (shouldExplode) {
-            // 确保爆炸点在屏幕范围内
-            this.x = constrain(this.x, 50, width - 50);
-            this.y = constrain(this.y, 50, height - 100);
+            // 在当前位置爆炸，不修改位置
             this.explode();
           }
         } else {
@@ -992,15 +987,6 @@
 
             this.particles.push(new SparkleParticle(this.x, this.y, vx, vy));
           }
-        }
-
-        // 随机生成祝福语
-        if (random() < params.blessingChance) {
-          let blessing = random(horseYearBlessings);
-          let offsetX = random(-50, 50);
-          let offsetY = random(-30, 30);
-          blessings.push(new BlessingText(this.x + offsetX, this.y + offsetY, blessing));
-          console.log('生成祝福语:', blessing);
         }
       }
 
@@ -1169,31 +1155,31 @@
       update() {
         this.x += this.vx;
         this.y += this.vy;
-        this.vy += params.gravity; // 重力
-        this.vx *= 0.985; // 空气阻力
+        this.vy += params.gravity;
+        this.vx *= 0.985;
 
         this.life -= this.decay;
         this.twinkleTimer += this.twinkle;
 
         // 边界检查 - 如果粒子飞出屏幕太远，加速衰减
         if (this.x < -50 || this.x > width + 50 || this.y > height + 50) {
-          this.life -= 10; // 加速衰减
+          this.life -= 10;
         }
 
-        // 添加拖尾
+        // 添加拖尾 - 减少拖尾长度
         this.trail.push({
           x: this.x,
           y: this.y,
           life: this.life,
           size: this.size * 0.7
         });
-        if (this.trail.length > 8) {
+        if (this.trail.length > 5) {
           this.trail.shift();
         }
       }
 
       display() {
-        // 绘制拖尾 - 更长更华丽
+        // 绘制拖尾 - 减少拖尾长度以提高性能
         for (let i = 0; i < this.trail.length; i++) {
           let alpha = map(i, 0, this.trail.length - 1, 0, this.life * 0.8);
           let size = map(i, 0, this.trail.length - 1, 1, this.trail[i].size);
@@ -1203,26 +1189,28 @@
           ellipse(this.trail[i].x, this.trail[i].y, size);
         }
 
-        // 计算闪烁效果
-        let twinkleEffect = (sin(this.twinkleTimer) + 1) * 0.5;
-        let currentBrightness = this.brightness * (0.7 + 0.3 * twinkleEffect);
+        // 简化闪烁效果 - 只在生命值高时计算
+        let mainAlpha = this.life;
+        if (this.life > 100) {
+          let twinkleEffect = (sin(this.twinkleTimer) + 1) * 0.5;
+          mainAlpha *= (0.8 + 0.2 * twinkleEffect);
+        }
 
-        // 绘制主体 - 更亮更有层次
-        let mainAlpha = this.life * currentBrightness;
+        // 绘制主体
         fill(red(this.color), green(this.color), blue(this.color), mainAlpha);
         ellipse(this.x, this.y, this.size);
 
-        // 内核高亮
-        fill(255, 255, 255, mainAlpha * 0.6);
-        ellipse(this.x, this.y, this.size * 0.4);
+        // 内核高亮 - 只在生命值高时绘制
+        if (this.life > 80) {
+          fill(255, 255, 255, mainAlpha * 0.5);
+          ellipse(this.x, this.y, this.size * 0.4);
+        }
 
-        // 添加光晕 - 多层光晕
-        if (this.life > 50) {
-          for (let r = this.size * 2; r > this.size; r -= this.size * 0.3) {
-            let haloAlpha = (this.life * 0.2) * (r / (this.size * 2));
-            fill(red(this.color), green(this.color), blue(this.color), haloAlpha);
-            ellipse(this.x, this.y, r);
-          }
+        // 添加光晕 - 减少光晕层数
+        if (this.life > 100) {
+          let haloAlpha = this.life * 0.15;
+          fill(red(this.color), green(this.color), blue(this.color), haloAlpha);
+          ellipse(this.x, this.y, this.size * 2);
         }
       }
 
@@ -1254,14 +1242,14 @@
           this.life -= 8; // 加速衰减
         }
 
-        // 更长的拖尾
+        // 更长的拖尾 - 减少长度以提高性能
         this.trail.push({
           x: this.x,
           y: this.y,
           life: this.life,
           size: this.size * 0.5
         });
-        if (this.trail.length > 12) {
+        if (this.trail.length > 8) {
           this.trail.shift();
         }
       }
@@ -1310,7 +1298,7 @@
         fill(255, 255, 255, sparkleAlpha);
         noStroke();
 
-        // 绘制十字星形闪烁
+        // 绘制十字星形闪烁 - 简化绘制
         push();
         translate(this.x, this.y);
 
@@ -1322,80 +1310,14 @@
         // 对角线
         rotate(PI / 4);
         rect(-this.size * 0.7, -this.size * 0.15, this.size * 1.4, this.size * 0.3);
-        rect(-this.size * 0.15, -this.size * 0.7, this.size * 0.3, this.size * 1.4);
 
         pop();
 
-        // 添加光晕
-        fill(255, 255, 255, sparkleAlpha * 0.3);
-        ellipse(this.x, this.y, this.size * 3);
-      }
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // 祝福语类定义
-    // ═══════════════════════════════════════════════════════════════════════
-
-    class BlessingText {
-      constructor(x, y, text) {
-        this.x = x;
-        this.y = y;
-        this.text = text;
-        this.color = random(['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FD79A8', '#FDCB6E']);
-
-        // 简单的显示和消失效果
-        this.initialSize = random(32, 48);
-        this.scale = 0;
-        this.scaleSpeed = 0.1;
-        this.life = 180; // 总生命周期（3秒）
-        this.maxLife = 180;
-        this.alpha = 255;
-      }
-
-      update() {
-        // 放大阶段
-        if (this.scale < 1) {
-          this.scale += this.scaleSpeed;
-          if (this.scale >= 1) {
-            this.scale = 1;
-          }
+        // 简化光晕 - 只绘制一层
+        if (this.life > 80) {
+          fill(255, 255, 255, sparkleAlpha * 0.3);
+          ellipse(this.x, this.y, this.size * 2);
         }
-
-        // 生命周期递减
-        this.life--;
-
-        // 最后30帧开始淡出
-        if (this.life < 30) {
-          this.alpha = map(this.life, 0, 30, 0, 255);
-        }
-      }
-
-      display() {
-        push();
-        translate(this.x, this.y);
-        scale(this.scale);
-
-        // 发光效果
-        for (let i = 3; i > 0; i--) {
-          fill(red(this.color), green(this.color), blue(this.color), (this.alpha * 0.4) / i);
-          textAlign(CENTER, CENTER);
-          textSize(this.initialSize + i * 2);
-          textStyle(BOLD);
-          text(this.text, 0, 0);
-        }
-
-        // 主文字
-        fill(255, 255, 255, this.alpha);
-        textAlign(CENTER, CENTER);
-        textSize(this.initialSize);
-        textStyle(BOLD);
-        text(this.text, 0, 0);
-
-        pop();
-      }
-
-      isDead() {
-        return this.life <= 0;
       }
     }
 
@@ -1452,18 +1374,10 @@
     function clearScreen() {
       fireworks = [];
       particles = [];
-      blessings = []; // 清理祝福语
       background(10, 10, 15);
     }
 
-    // 手动显示随机祝福语
-    function showRandomBlessing() {
-      let blessing = random(horseYearBlessings);
-      let x = random(width * 0.2, width * 0.8);
-      let y = random(height * 0.3, height * 0.7);
-      blessings.push(new BlessingText(x, y, blessing));
-      console.log('手动生成祝福语:', blessing);
-    }
+    
 
     // 性能优化：清理超出屏幕范围的烟花
     function cleanupOffscreenFireworks() {
@@ -1591,7 +1505,6 @@
         // 添加触摸控制按钮事件监听器
         const launchBtn = document.getElementById('launch-btn');
         const burstBtn = document.getElementById('burst-btn');
-        const blessingBtn = document.getElementById('blessing-btn');
         const clearBtn = document.getElementById('clear-btn');
 
         if (launchBtn) {
@@ -1633,27 +1546,6 @@
             e.preventDefault();
             e.stopPropagation();
             launchBurst();
-          });
-        }
-
-        if (blessingBtn) {
-          blessingBtn.addEventListener('touchstart', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.style.transform = 'scale(0.9)';
-          });
-
-          blessingBtn.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.style.transform = '';
-            showRandomBlessing();
-          });
-
-          blessingBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            showRandomBlessing();
           });
         }
 
@@ -1717,7 +1609,6 @@
       setTimeout(() => {
         const launchBtn = document.getElementById('launch-btn');
         const burstBtn = document.getElementById('burst-btn');
-        const blessingBtn = document.getElementById('blessing-btn');
         const clearBtn = document.getElementById('clear-btn');
 
         // 发射烟花按钮
@@ -1773,34 +1664,6 @@
             e.stopPropagation();
             console.log('连发按钮被点击 (click)');
             launchBurst();
-          });
-        }
-
-        // 祝福语按钮
-        if (blessingBtn && !blessingBtn.hasAttribute('data-initialized')) {
-          blessingBtn.setAttribute('data-initialized', 'true');
-
-          blessingBtn.addEventListener('touchstart', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.style.transform = 'scale(0.9)';
-            this.style.boxShadow = '0 0 20px rgba(255, 215, 0, 0.8)';
-          });
-
-          blessingBtn.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.style.transform = '';
-            this.style.boxShadow = '';
-            console.log('祝福语按钮被点击');
-            showRandomBlessing();
-          });
-
-          blessingBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('祝福语按钮被点击 (click)');
-            showRandomBlessing();
           });
         }
 
@@ -1882,7 +1745,7 @@
 
     function initializeControls() {
       // 为所有滑块添加事件监听器
-      const sliders = ['launchRate', 'explosionPower', 'particleCount', 'gravity', 'trailLength', 'sparkleIntensity', 'blessingChance'];
+      const sliders = ['launchRate', 'explosionPower', 'particleCount', 'gravity', 'trailLength', 'sparkleIntensity'];
 
       sliders.forEach(sliderId => {
         const slider = document.getElementById(sliderId);
@@ -1914,7 +1777,7 @@
       fireworks.forEach(fw => {
         totalParticles += fw.particles.length;
       });
-      document.getElementById('particle-count').textContent = totalParticles + ' + ' + blessings.length + '祝福';
+      document.getElementById('particle-count').textContent = totalParticles;
     }
 
     // ═══════════════════════════════════════════════════════════════════════
